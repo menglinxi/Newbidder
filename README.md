@@ -8,3 +8,7 @@ The system is Dockerized and allows you to run a DSP totally within your own con
 <b>WARNING: This is not a turnkey DSP.</b><br><br>
 
 <a href="http://rtb4free.com" target="_blank">Directions for using this system is located here</a>
+
+```
+docker run -it --network newbidder_default --rm ches/kafka bash
+```

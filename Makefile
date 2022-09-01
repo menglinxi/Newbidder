@@ -34,20 +34,20 @@ application: react local docker
 
 local: 
 	mvn assembly:assembly -DdescriptorId=jar-with-dependencies  -Dmaven.test.skip=true
-	docker build -t jacamars/newbidder .
+	# docker build -t jacamars/newbidder .
 
 minio:
-	mkdir -p /tmp/s3
-	docker-compose -f minio.yml up -d
-	bash -c "./wait-for-it.sh localhost:9000 -t 120"
-	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=AKIAIOSFODNN7EXAMPLE&aws_secret_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&bucket=rtb4free-big-data&filename=data/METHBOT.txt&key=cidr/METHBOT.txt"
-	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=AKIAIOSFODNN7EXAMPLE&aws_secret_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&bucket=rtb4free-big-data&filename=data/zip_codes_states.csv&key=geo/zip_codes_states.csv"
-	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=AKIAIOSFODNN7EXAMPLE&aws_secret_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&bucket=rtb4free-big-data&filename=data/adxgeo.csv&key=geo/adxgeo.csv"
-	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=AKIAIOSFODNN7EXAMPLE&aws_secret_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&bucket=rtb4free-big-data&filename=Campaigns/payday.json&key=config/payday.json"
-	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=AKIAIOSFODNN7EXAMPLE&aws_secret_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&bucket=rtb4free-big-data&filename=data/audience.txt&key=bloom/audience1/test-audience.txt"
-	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=AKIAIOSFODNN7EXAMPLE&aws_secret_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&bucket=rtb4free-big-data&filename=www/images/320x50.jpg&key=images/320x50/tunein.jpg"
-	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=AKIAIOSFODNN7EXAMPLE&aws_secret_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&bucket=rtb4free-big-data&filename=www/contact.html/&key=landing/rtb4free/contact.html"
-	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=AKIAIOSFODNN7EXAMPLE&aws_secret_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&bucket=rtb4free-big-data&filename=www/images/trump.mp4&key=video/trump.mp4"
+	# mkdir -p /tmp/s3
+	# docker-compose -f minio.yml up -d
+	# bash -c "./wait-for-it.sh localhost:9000 -t 120"
+	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=FvFIzKstCFg0N1MV&aws_secret_key=PUSrfylCENEOQBU6OYSTuUDS0c6Vvsmf&bucket=rtb4free-big-data&filename=data/METHBOT.txt&key=cidr/METHBOT.txt"
+	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=FvFIzKstCFg0N1MV&aws_secret_key=PUSrfylCENEOQBU6OYSTuUDS0c6Vvsmf&bucket=rtb4free-big-data&filename=data/zip_codes_states.csv&key=geo/zip_codes_states.csv"
+	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=FvFIzKstCFg0N1MV&aws_secret_key=PUSrfylCENEOQBU6OYSTuUDS0c6Vvsmf&bucket=rtb4free-big-data&filename=data/adxgeo.csv&key=geo/adxgeo.csv"
+	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=FvFIzKstCFg0N1MV&aws_secret_key=PUSrfylCENEOQBU6OYSTuUDS0c6Vvsmf&bucket=rtb4free-big-data&filename=Campaigns/payday.json&key=config/payday.json"
+	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=FvFIzKstCFg0N1MV&aws_secret_key=PUSrfylCENEOQBU6OYSTuUDS0c6Vvsmf&bucket=rtb4free-big-data&filename=data/audience.txt&key=bloom/audience1/test-audience.txt"
+	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=FvFIzKstCFg0N1MV&aws_secret_key=PUSrfylCENEOQBU6OYSTuUDS0c6Vvsmf&bucket=rtb4free-big-data&filename=www/images/320x50.jpg&key=images/320x50/tunein.jpg"
+	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=FvFIzKstCFg0N1MV&aws_secret_key=PUSrfylCENEOQBU6OYSTuUDS0c6Vvsmf&bucket=rtb4free-big-data&filename=www/contact.html/&key=landing/rtb4free/contact.html"
+	./tools/copy2s3 "endpoint=http://localhost:9000&aws_access_key=FvFIzKstCFg0N1MV&aws_secret_key=PUSrfylCENEOQBU6OYSTuUDS0c6Vvsmf&bucket=rtb4free-big-data&filename=www/images/trump.mp4&key=video/trump.mp4"
 	
 realS3:
 	./tools/copy2s3 "aws_access_key=$(aws_access_key)&aws_secret_key=$(aws_secret_key)&aws_region=$(aws_region)&bucket=$(bucket)&filename=data/METHBOT.txt&key=cidr/METHBOT.txt"

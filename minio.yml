@@ -9,14 +9,17 @@ services:
     image: minio/minio
     ports:
       - '9000:9000'
+      - '9090:9090'
     environment:
-      - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
-      - MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+      # - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      # - MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
     volumes:
-      - /tmp/s3:/data
-    command: server /data
+      - /Users/chendan/project/adx/Newbidder/tmp/s3:/data
+    command: server /data --console-address ":9090"
 
 
-#networks:
-#  rtb_net:
-#    external: true
+networks:
+ rtb_net:
+   external: true
