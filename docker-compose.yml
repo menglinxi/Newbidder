@@ -16,7 +16,7 @@ services:
       ZOOKEEPER_IP: "zookeeper"
     ports:
       - "9092:9092"
-    restart: always
+    # restart: always
     depends_on:
       - zookeeper
 
@@ -27,8 +27,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - /tmp/data:/var/lib/postgresql/data
-      
+      - /Users/chendan/project/adx/Newbidder/tmp/data:/var/lib/postgresql/data
+
   bidder:
     image: jacamars/newbidder
     environment:
@@ -37,9 +37,9 @@ services:
       JDBC: "jdbc:postgresql://sqldb/postgres?user=postgres&password=postgres"
       S3BUCKET: ""
       S3REGION: "us-east-1"
-      S3ENDPOINT: "${S3ENDPOINT}"
-      AWSACCESSKEY: "${AWSACCESSKEY}"
-      AWSSECRETKEY: "${AWSSECRETKEY}"
+      S3ENDPOINT: "http://minio:9000"
+      AWSACCESSKEY: "FvFIzKstCFg0N1MV"
+      AWSSECRETKEY: "PUSrfylCENEOQBU6OYSTuUDS0c6Vvsmf"
       GOOGLE_EKEY: ""
       GOOGLE_IKEY: ""
       OPENX_EKEY: ""
@@ -53,35 +53,48 @@ services:
       - "8155:8155"
       - "5701:5701"
       - "7379:7379"
+    depends_on:
+      - minio
+      - sqldb
+      - kafka
     command: bash -c "./wait-for-it.sh kafka:9092 -t 120 && ./wait-for-it.sh sqldb:5432 -t 120 && ./wait-for-it.sh minio:9000 -t 120 && ./rtb4free s3://rtb4free-big-data/config/payday.json"
-    
+
   minio:
     image: minio/minio
     ports:
       - '9000:9000'
+      - '9090:9090'
     environment:
-      - MINIO_ACCESS_KEY=${AWSACCESSKEY}
-      - MINIO_SECRET_KEY=${AWSSECRETKEY}
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+      # - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      # - MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
     volumes:
-      - /tmp/s3:/data
-    command: server /data
+      - /Users/chendan/project/adx/Newbidder/tmp/s3:/data
+    command: server /data --console-address ":9090"
 
-  elastic1:
-    image: ploh/elastic_pwd    #  from docker.elastic.co/elasticsearch/elasticsearch:6.2.2,  added demo data
-    environment:
-      - discovery.type=single-node
-      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+
+  # elastic1:
+  #   image: ploh/elastic_pwd    #  from docker.elastic.co/elasticsearch/elasticsearch:6.2.2,  added demo data
+  #   environment:
+  #     - discovery.type=single-node
+  #     - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
       
-  logstash1:
-    image: ploh/logstash_pwd
-    environment:
-      - "XPACK_MONITORING_ELASTICSEARCH_URL=http://elastic1:9200"
-      - "XPACK_MONITORING_ENABLED=true"
+  # logstash1:
+  #   image: ploh/logstash_pwd
+  #   environment:
+  #     - "XPACK_MONITORING_ELASTICSEARCH_URL=http://elastic1:9200"
+  #     - "XPACK_MONITORING_ENABLED=true"
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:6.2.2
-    environment:
-      - SERVER_NAME=elastic1
-      - ELASTICSEARCH_URL=http://elastic1:9200
-    ports:
-      - "5601:5601"
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:6.2.2
+  #   environment:
+  #     - SERVER_NAME=elastic1
+  #     - ELASTICSEARCH_URL=http://elastic1:9200
+  #   ports:
+  #     - "5601:5601"
+
+
+networks:
+ rtb_net:
+   external: true
