@@ -12,7 +12,10 @@ The system is Dockerized and allows you to run a DSP totally within your own con
 ```
 docker run -it --network newbidder_default --rm ches/kafka bash
 ```
+此项目在linux下开发,部署.
+
 更新源文件如下:
+```
 deb http://mirrors.aliyun.com/ubuntu/ focal main restricted
 deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted
 deb http://mirrors.aliyun.com/ubuntu/ focal universe
@@ -30,7 +33,7 @@ deb http://cn.archive.ubuntu.com/ubuntu/ focal-backports main restricted univers
 deb http://security.ubuntu.com/ubuntu focal-security main restricted
 deb http://security.ubuntu.com/ubuntu focal-security universe
 deb http://security.ubuntu.com/ubuntu focal-security multiverse
-
+```
 安装jdk17.
 ![4452443cabba5f0f4ef49d55934ca27](https://user-images.githubusercontent.com/3926945/188259047-6e736dc7-20bf-4f34-ad18-18e1472f9c22.png)
 
