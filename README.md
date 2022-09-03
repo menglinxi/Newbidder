@@ -42,8 +42,10 @@ deb http://security.ubuntu.com/ubuntu focal-security multiverse
 ![598def00c1a077951cc4b51bbaaad32](https://user-images.githubusercontent.com/3926945/188259086-6a90b426-7b55-4592-b7e4-e0c74b8ca292.jpg)
 
 命令如下
+```
 启动:docker-compose -f minio.yml up -d
 关闭:docker-compose -f minio.yml down
+```
 http://localhost:9000
 然后,创建用户,设置key
 ![72f4af621e4ded309f21f7e7f0b4476](https://user-images.githubusercontent.com/3926945/188259000-b3903824-dcc2-4f02-a298-7207547ea8d9.jpg)
@@ -51,28 +53,40 @@ http://localhost:9000
 ![2c18147b47e032748444a9448695b9f](https://user-images.githubusercontent.com/3926945/188259007-efe69c06-267d-48a3-af3d-b694332c34f7.jpg)
 
 修改 Makefile,里的 minio版块.主要是key,serc值.
-
+  
 然后make minio
 ![73621615dec3079c40556076f9e7bfe](https://user-images.githubusercontent.com/3926945/188259070-6753f71a-9035-4217-a1ec-60a326301878.jpg)
 再启动 kafka
+```
 启动docker-compose -f docker-kafka.yml up -d
 关闭docker-compose -f docker-kafka.yml down
+```
 
 修改数据库挂载路径
 ![d440eff44216a260218db373fdca139](https://user-images.githubusercontent.com/3926945/188259110-72562792-2c0a-4da1-b5b8-7f1bf1ce4675.jpg)
 
 编译 jar
+```
 mvn assembly:assembly -DdescriptorId=jar-with-dependencies  -Dmaven.test.skip=true
+```
 编译react
+```
 make react
+```
 创建镜像
+```
 docker build -t jacamars/newbidder . 
+```
 启动 数据库
+```
 docker-compose -f docker-compose-postgres.yml up -d
 docker-compose -f docker-compose-postgres.yml down
+```
 
 启动镜像
+```
 docker-compose -f docker-bidder.yml up -d
+```
 
 
 
